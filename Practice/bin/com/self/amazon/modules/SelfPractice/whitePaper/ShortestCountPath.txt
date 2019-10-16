@@ -1,0 +1,20 @@
+
+
+public class ShortestCountPath{
+
+	public static void main(String[] args){
+		int p = path(new int[][]{{1, 5, 15, 3}, {1, 1, 1, 6}, {2, 16, 1, 4}, {9, 8, 1, 10}}, 3, 3);
+		System.out.println(p);
+	}
+	
+	public static int path(int[][] mesh, int x, int y){
+		if(x >= mesh.length-1 && y >= mesh[0].length-1 && x <= 0 && y <= 0) return 0;
+		
+		int min = Math.min(path(mesh, x-1, y) + mesh[x-1][y], path(mesh, x, y-1) + mesh[x][y-1]);
+		min = Math.min(min, path(mesh, x+1, y) + mesh[x+1][y]);
+		min = Math.min(min, path(mesh, x, y+1) + mesh[x][y+1]);
+		
+		return min;
+	}
+
+}

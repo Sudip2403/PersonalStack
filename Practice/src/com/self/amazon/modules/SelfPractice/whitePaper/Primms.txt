@@ -1,0 +1,88 @@
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.PriorityQueue;
+
+public class Primms{
+	
+	public static void main(String[] args){
+		int[][] gr = new int[][]{{0, 3, 2, 0, 0}, {3, 0, 0, 5, 0}, {2, 0, 0, 1, 4}, {0, 5, 1, 0, 0}, {0, 0, 4, 0, 0}};
+		Map<String, String> map = minSpanningTree(gr);
+		
+		for(Map.Entry<String, String> entry: map.entrySet()){
+			System.out.println(entry.getKey() + " " + entry.getValue());
+		}
+	}
+	
+	public static Map<String, String> minSpanningTree(int[][] graph){
+		if(graph == null) return null;
+		
+		int l = graph.length;
+		PriorityQueue<VertexP> p = new PriorityQueue<VertexP>(l);
+		p.offer(new VertexP(0, "0"));
+		p.offer(new VertexP(Integer.MAX_VALUE, "1"));
+		p.offer(new VertexP(Integer.MAX_VALUE, "2"));
+		p.offer(new VertexP(Integer.MAX_VALUE, "3"));
+		p.offer(new VertexP(Integer.MAX_VALUE, "4"));
+		
+		return findTree(graph, p);
+		
+	}
+	
+	private static Map<String, String> findTree(int[][] graph, PriorityQueue<VertexP> p){
+		int k = graph.length;
+		Map<String, String> map = new HashMap<String, String>();
+		
+		while(!p.isEmpty()){
+			VertexP v = p.poll();
+			String name = v.name;
+
+			for(int i = 0; i < k; i++){
+				if(name.equals(String.valueOf(i))){
+					for(int j = 0; j < k; j++){
+						if(graph[i][j] > 0 && graph[i][j] < v.weight){
+							updateWeight(p, j, graph[i][j]);
+							map.put(name, String.valueOf(j));
+						}
+					}				
+				}
+			}
+ 
+		}
+		
+		return map;
+	}
+	
+	private static void updateWeight(PriorityQueue<VertexP> p, int i, int weight){
+		List<VertexP> li = new ArrayList<VertexP>();
+		
+		while(p != null){
+			VertexP q = p.poll();
+			if(q.name.equals(String.valueOf(i))){
+				q.weight = weight;
+			}
+		}
+		
+		p.addAll(li);
+	}
+}
+
+class VertexP implements Comparable<VertexP>{
+
+	int weight;
+	String name;
+	
+	public VertexP(int weight, String name){
+		this.weight = weight;
+		this.name = name;
+	}
+	
+	@Override
+	public int compareTo(VertexP v){
+		if(v.name.equals(name)) return 0;
+		return weight > v.weight? 1: -1;
+	}
+	
+}

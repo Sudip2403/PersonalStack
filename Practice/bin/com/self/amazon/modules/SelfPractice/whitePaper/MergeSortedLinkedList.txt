@@ -1,0 +1,50 @@
+
+public class MergeSortedLinkedList{
+    
+    
+    public static void main(String[] args){
+         Node N7 = new Node(7, null);
+         Node N5 = new Node(5, N7);
+         Node N3 = new Node(3, N5);
+         Node N1 = new Node(1, N3); 
+
+         Node N6 = new Node(6, null);
+         Node N4 = new Node(4, N6);
+         Node N2 = new Node(2, N4);
+                  
+         mergeLinkedList(N1, N2);
+         
+    }
+    
+    public static Node mergeLinkedList(Node n1, Node n2){
+        
+        if(n1 == null && n2 == null) return null;
+        if(n1 == null && n2 != null) return n2;
+        if(n2 == null && n1 != null) return n1;
+        
+        Node h = n1;
+        
+        while(n1 != null && n2 != null){
+            if(n1.val < n2.val){
+                Node temp = n1.next;
+                n1.next = n2;
+                n2 = temp;
+           }
+           n1 = n1.next;
+        }
+            
+        if(n2 != null) n1.next = n2;
+        return h;
+    }
+}
+
+
+class Node{
+    int val;
+    Node next;
+
+    public Node(int val, Node next){
+        this.val = val;
+        this.next = next;
+    }
+}

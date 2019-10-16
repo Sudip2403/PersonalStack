@@ -1,0 +1,33 @@
+
+
+public class NumberOfSteps{
+
+	
+	public static void main(String[] args){
+		System.out.println(countSteps(new int[]{{1, 0}}, new int[]{{2, 3}}));
+	}
+	
+	private static int countSteps(int[][] p1, int[][] p2){
+		
+		int l, m, n, p;
+		
+		if(p1[0][0] < p2[0][0]) {
+			l = p1[0][0];
+			m = p2[0][0];
+		}else{
+			l = p2[0][0];
+			m = p1[0][0];
+		}
+		
+		if(p1[1] < p2[1]) {
+			n = p1[1][0];
+			p = p2[1][0];
+		}else{
+			n = p2[1][0];
+			p = p1[1][0];
+		}
+		
+		return ( p - n) + (m - l);		
+	}
+
+}
